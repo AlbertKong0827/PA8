@@ -36,7 +36,7 @@ public class LineCounter {
         System.out.println(percentage + "% of lines are also in " + compareFileName);
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args){
 
         if (args.length < 2) {
             System.err.println("Invalid number of arguments passed");
@@ -60,7 +60,7 @@ public class LineCounter {
                 }
                 sc.close();
             }catch(FileNotFoundException exception){
-                throw new FileNotFoundException();
+                exception.getMessage();
             }
         }
 
@@ -88,7 +88,7 @@ public class LineCounter {
                         total = 0;
                         similarity = 0;
                     } catch (FileNotFoundException exception){
-                        throw new FileNotFoundException();
+                        exception.getMessage();
                     }
                 }
             }

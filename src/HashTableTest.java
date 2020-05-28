@@ -1,5 +1,3 @@
-import sun.util.resources.cldr.zh.CalendarData_zh_Hans_HK;
-
 import static org.junit.Assert.*;
 
 public class HashTableTest {
@@ -31,8 +29,9 @@ public class HashTableTest {
         test1.insert("a");
         test1.insert("b");
         test1.insert("how many?");
+        assertEquals(19,test1.size());
         System.out.println(test1.toString());
-        assertEquals(true, test1.lookup("esfoi"));
+        //assertEquals(true, test1.lookup("esfoi"));
         assertEquals(false, test1.lookup("Z"));
 
         assertEquals(true, test1.lookup("A"));
@@ -50,7 +49,7 @@ public class HashTableTest {
         test1.delete("G");
         System.out.println(test1.toString());
         assertEquals(false, test1.lookup("A"));
-        assertEquals(160, test1.capacity());
+        assertEquals(80, test1.capacity());
         System.out.println(test1.getStatsLog());
 
         HashTable test2 = new HashTable(10);
@@ -71,6 +70,7 @@ public class HashTableTest {
         test1.insert("e");
         test1.insert("f");
         test1.insert("g");
+        assertEquals(true, test1.lookup("g"));
         test1.delete("a");
         test1.delete("b");
         test1.delete("c");
@@ -126,6 +126,7 @@ public class HashTableTest {
         test3.insert("a");
         test3.insert("b");
         test3.insert("c");
+        assertEquals(3,test3.size());
         test3.delete("b");
         test3.delete("c");
         test3.delete("a");
@@ -167,17 +168,17 @@ public class HashTableTest {
         test1.insert("lgkn");
         test1.insert("rogen");
         test1.insert("rkjgn");
-        /*assertEquals("| index | table 1 | table 2 |\n" +
-                "| 0 | rkjgn | [NULL] |\n" +
+        assertEquals("| index | table 1 | table 2 |\n" +
+                "| 0 | rkjgn | lgkn |\n" +
                 "| 1 | rogen | [NULL] |\n" +
-                "| 2 | a | [NULL] |\n" +
+                "| 2 | [NULL] | [NULL] |\n" +
                 "| 3 | [NULL] | [NULL] |\n" +
-                "| 4 | [NULL] | lgkn |\n" +
-                "| 5 | [NULL] | [NULL] |\n" +
+                "| 4 | [NULL] | [NULL] |\n" +
+                "| 5 | grjb | [NULL] |\n" +
                 "| 6 | [NULL] | [NULL] |\n" +
-                "| 7 | [NULL] | [NULL] |\n" +
-                "| 8 | [NULL] | grjb |\n" +
-                "| 9 | [NULL] | [NULL] |\n", test1.toString());*/
+                "| 7 | a | [NULL] |\n" +
+                "| 8 | [NULL] | [NULL] |\n" +
+                "| 9 | [NULL] | [NULL] |\n", test1.toString());
 
         HashTable test2 = new HashTable();
         assertEquals("| index | table 1 | table 2 |\n" +

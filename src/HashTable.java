@@ -3,8 +3,6 @@
  * PID: A16127732
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Hash table
@@ -89,7 +87,6 @@ public class HashTable implements IHashTable {
         int place2 = hashTwo(value);
         if(table1[place1] == null){
             table1[place1] = value;
-            nElems++;
         }else{
             eviction += 1;
             if(table2[place2] != null){
@@ -98,9 +95,8 @@ public class HashTable implements IHashTable {
             String temp = table1[place1];
             table1[place1] = value;
             table2[place2] = temp;
-            nElems++;
         }
-
+        nElems++;
         return true;
     }
 
@@ -269,9 +265,8 @@ public class HashTable implements IHashTable {
         String[] temp2 = table2;
         table1 = newTable1;
         table2 = newTable2;
-
+        nElems = 0;
         int bucket = 0;
-        int tempPlace;
         while(bucket < temp1.length){
             if (temp1[bucket]!= null){
                 this.insert(temp1[bucket]);

@@ -100,35 +100,6 @@ public class HashTable implements IHashTable {
         return true;
     }
 
-    /**
-     * helper method for insert
-     * @param table the table to start hashing
-     * @param value the value to insert
-     */
-    /*private void insertHelper(String[] table, String value){
-        int place;
-        String[] another;
-        if(table == table1){
-            place = hashOne(value);
-            another = table2;
-        }else if(table == table2){
-            place = hashTwo(value);
-            another = table1;
-        }else{
-            return;
-        }
-        if (table[place] == null){
-            table[place] = value;
-            nElems ++;
-        }else{
-            String temp = table[place];
-            table[place] = value;
-            insertHelper(another,temp);
-            eviction += 1; //if the space is occupied, cuckoo the value, increment eviction
-        }
-
-    }*/
-
 
     /**
      * delete a given value

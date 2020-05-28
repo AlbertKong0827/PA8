@@ -93,8 +93,9 @@ public class HashTable implements IHashTable {
                 rehash();
             }
             String temp = table1[place1];
+            int tempVal = hashTwo(temp);
             table1[place1] = value;
-            table2[place2] = temp;
+            table2[tempVal] = temp;
         }
         nElems++;
         return true;
@@ -236,8 +237,8 @@ public class HashTable implements IHashTable {
         String[] temp2 = table2;
         table1 = newTable1;
         table2 = newTable2;
-        nElems = 0;
         int bucket = 0;
+        nElems=0;
         while(bucket < temp1.length){
             if (temp1[bucket]!= null){
                 this.insert(temp1[bucket]);

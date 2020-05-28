@@ -1,12 +1,31 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Scanner;
+
 import static org.junit.Assert.*;
 
 public class HashTableTest {
 
-    //a random string generator to test the hash table on random inputs
+    public LinkedList fileReader(String filename) throws FileNotFoundException {
+        LinkedList input = new LinkedList();
+        try {
+            File file = new File(filename);
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                String content = sc.nextLine();
+                input.add(content);
+            }
+            sc.close();
+        }catch (FileNotFoundException e){
+            e.getMessage();
+        }
+        return input;
+    }
 
 
     @org.junit.Test
-    public void insert() {
+    public void insert() throws FileNotFoundException {
         HashTable test1 = new HashTable();
         test1.insert("A");
         test1.insert("B");
@@ -31,7 +50,7 @@ public class HashTableTest {
         test1.insert("how many?");
         assertEquals(19,test1.size());
         System.out.println(test1.toString());
-        //assertEquals(true, test1.lookup("esfoi"));
+        assertEquals(true, test1.lookup("esfoi"));
         assertEquals(false, test1.lookup("Z"));
 
         assertEquals(true, test1.lookup("A"));
@@ -57,6 +76,24 @@ public class HashTableTest {
         test2.insert("b");
         test2.insert("c");
         assertEquals(20, test2.capacity());
+
+        /*HashTable test3 = new HashTable(20);
+        LinkedList samples = fileReader("./src/wordlist.10000.txt");
+        for (int i = 0; i<samples.size(); i++){
+            test3.insert(samples.get(i).toString());
+        }
+        assertEquals(9999,test3.size());
+        assertEquals(true,test3.lookup("yourself"));
+        assertEquals(false, test3.lookup("zzz"));
+        assertEquals(true,test3.lookup("abc"));
+        int mis = 0;
+        for(int i = 0; i<samples.size(); i++){
+            if(!test3.lookup(samples.get(i).toString())){
+                mis+=1;
+                System.out.println(samples.get(i).toString());
+                System.out.println(mis);
+            }
+        }*/
 
     }
 
@@ -185,11 +222,11 @@ public class HashTableTest {
         test1.insert("rogen");
         test1.insert("rkjgn");
         assertEquals("| index | table 1 | table 2 |\n" +
-                "| 0 | rkjgn | lgkn |\n" +
+                "| 0 | rkjgn | [NULL] |\n" +
                 "| 1 | rogen | [NULL] |\n" +
                 "| 2 | [NULL] | [NULL] |\n" +
                 "| 3 | [NULL] | [NULL] |\n" +
-                "| 4 | [NULL] | [NULL] |\n" +
+                "| 4 | [NULL] | lgkn |\n" +
                 "| 5 | grjb | [NULL] |\n" +
                 "| 6 | [NULL] | [NULL] |\n" +
                 "| 7 | a | [NULL] |\n" +

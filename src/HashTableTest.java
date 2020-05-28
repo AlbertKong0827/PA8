@@ -120,7 +120,23 @@ public class HashTableTest {
 
     @org.junit.Test
     public void size() {
+        HashTable test1 = new HashTable();
+        test1.insert("a");
+        test1.insert("aa");
+        test1.insert("aaa");
+        test1.insert("kjbgs");
+        test1.insert("iown");
+        test1.insert("aba");
+        test1.insert("aaaa");
+        assertEquals(7,test1.size());
 
+        HashTable test2 = new HashTable();
+        test2.insert("39287");
+        test2.insert("498");
+        test2.insert("0394");
+        test2.insert("dkngse3");
+        test2.insert("!#hls");
+        assertEquals(5,test2.size());
 
         HashTable test3 = new HashTable();
         test3.insert("a");

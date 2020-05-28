@@ -69,27 +69,38 @@ public class HashTable implements IHashTable {
      */
     @Override
     public boolean insert(String value) {
+        if (value == null){
+            throw new NullPointerException();
+        }
         double load_factor = (double)(nElems+1)/table1.length;
         load_F = Math.round(load_factor*100);
         load_F = load_F/100;
         //fill in the values for each rehash, load factor and eviction
         logResult += expand+" "+load_F+" "+eviction+" ";
+        eviction = 0;
         if (load_factor > MAX_LOAD_FACTOR){
             rehash();
         }
-        if (value == null){
-            throw new NullPointerException();
-        }
-        if (Arrays.asList(table1).contains(value)||Arrays.asList(table2).contains(value)){
+        if (this.lookup(value)){
             return false;
         }
 
-        insertHelper(table1, value);
-
-        //if there are too many evictions, we assume there is an infinite loop, thus rehash
-        if(eviction > size()){
-            rehash();
+        int place1 = hashOne(value);
+        int place2 = hashTwo(value);
+        if(table1[place1] == null){
+            table1[place1] = value;
+            nElems++;
+        }else{
+            eviction += 1;
+            if(table2[place2] != null){
+                rehash();
+            }
+            String temp = table1[place1];
+            table1[place1] = value;
+            table2[place2] = temp;
+            nElems++;
         }
+
         return true;
     }
 
@@ -98,7 +109,7 @@ public class HashTable implements IHashTable {
      * @param table the table to start hashing
      * @param value the value to insert
      */
-    private void insertHelper(String[] table, String value){
+    /*private void insertHelper(String[] table, String value){
         int place;
         String[] another;
         if(table == table1){
@@ -119,7 +130,8 @@ public class HashTable implements IHashTable {
             insertHelper(another,temp);
             eviction += 1; //if the space is occupied, cuckoo the value, increment eviction
         }
-    }
+
+    }*/
 
 
     /**
@@ -132,18 +144,22 @@ public class HashTable implements IHashTable {
         if (value == null){
             throw new NullPointerException();
         }
-        int remove;
-        if(Arrays.asList(table1).contains(value)){
-            remove = Arrays.asList(table1).indexOf(value);
-            table1[remove] = null;
-        }else if (Arrays.asList(table2).contains(value)){
-            remove = Arrays.asList(table2).indexOf(value);
-            table2[remove] = null;
-        }else{
-            return false;
+        int remove1;
+        int remove2;
+        boolean result = false;
+        if(this.lookup(value)){
+            remove1 = hashOne(value);
+            remove2 = hashTwo(value);
+            if (value.equals(table1[remove1])){
+                table1[remove1] = null;
+                result = true;
+            } else if (value.equals(table2[remove2])){
+                table2[remove2] = null;
+                result = true;
+            }
         }
         nElems --;
-        return remove != -1;
+        return result;
     }
 
     /**
@@ -156,7 +172,7 @@ public class HashTable implements IHashTable {
         if (value == null){
             throw new NullPointerException();
         }
-        if(Arrays.asList(table1).contains(value)||Arrays.asList(table2).contains(value)){
+        if(value.equals(table1[hashOne(value)])||value.equals(table2[hashTwo(value)])){
             return true;
         }else{
             return false;
@@ -246,34 +262,25 @@ public class HashTable implements IHashTable {
      * double the size of the table, rehash values into the new tables
      */
     private void rehash() {
+        expand += 1;
         String[] newTable1 = new String[table1.length*DOUBLESIZE];
         String[] newTable2 = new String[table2.length*DOUBLESIZE];
+        String[] temp1 = table1;
+        String[] temp2 = table2;
+        table1 = newTable1;
+        table2 = newTable2;
 
         int bucket = 0;
-        while(bucket < table1.length){
-            if (table1[bucket]!= null){
-                int newLoc = hashOne(table1[bucket]);
-                if(newTable1[newLoc]!=null){
-                    String temp = newTable1[newLoc];
-                    newTable1[newLoc] = table1[bucket];
-                    hashTwo(temp);
-                }
-                newTable1[newLoc] = table1[bucket];
+        int tempPlace;
+        while(bucket < temp1.length){
+            if (temp1[bucket]!= null){
+                this.insert(temp1[bucket]);
             }
-            if (table2[bucket]!= null){
-                int newLoc = hashTwo(table2[bucket]);
-                if(newTable2[newLoc]!=null){
-                    String temp = newTable2[newLoc];
-                    newTable2[newLoc] = table2[bucket];
-                    hashOne(temp);
-                }
-                newTable2[newLoc] = table2[bucket];
+            if (temp2[bucket]!= null){
+                this.insert(temp2[bucket]);
             }
             bucket += 1;
         }
-        table1 = newTable1;
-        table2 = newTable2;
-        expand += 1;
     }
 
 

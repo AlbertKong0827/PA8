@@ -1,31 +1,13 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Scanner;
+
 
 import static org.junit.Assert.*;
 
 public class HashTableTest {
 
-    public LinkedList fileReader(String filename) throws FileNotFoundException {
-        LinkedList input = new LinkedList();
-        try {
-            File file = new File(filename);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-                String content = sc.nextLine();
-                input.add(content);
-            }
-            sc.close();
-        }catch (FileNotFoundException e){
-            e.getMessage();
-        }
-        return input;
-    }
 
 
     @org.junit.Test
-    public void insert() throws FileNotFoundException {
+    public void insert(){
         HashTable test1 = new HashTable();
         test1.insert("A");
         test1.insert("B");
@@ -75,25 +57,8 @@ public class HashTableTest {
         test2.insert("a");
         test2.insert("b");
         test2.insert("c");
+        test2.insert("arrest");
         assertEquals(20, test2.capacity());
-
-        /*HashTable test3 = new HashTable(20);
-        LinkedList samples = fileReader("./src/wordlist.10000.txt");
-        for (int i = 0; i<samples.size(); i++){
-            test3.insert(samples.get(i).toString());
-        }
-        assertEquals(9999,test3.size());
-        assertEquals(true,test3.lookup("yourself"));
-        assertEquals(false, test3.lookup("zzz"));
-        assertEquals(true,test3.lookup("abc"));
-        int mis = 0;
-        for(int i = 0; i<samples.size(); i++){
-            if(!test3.lookup(samples.get(i).toString())){
-                mis+=1;
-                System.out.println(samples.get(i).toString());
-                System.out.println(mis);
-            }
-        }*/
 
     }
 
